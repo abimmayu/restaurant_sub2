@@ -4,6 +4,7 @@ import 'package:restaurant_app/ui/detail_screen.dart';
 import 'package:restaurant_app/ui/home_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

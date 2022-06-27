@@ -1,13 +1,14 @@
-import 'dart:convert';
+const String baseUrl = "https://restaurant-api.dicoding.dev";
 
 class Restaurant {
-  late String id;
-  late String name;
-  late String description;
-  late String pictureId;
-  late String city;
-  late String rating;
-  late Menus menus;
+  final String id;
+  final String name;
+  final String description;
+  final String pictureId;
+  final String city;
+  final String address;
+  final num rating;
+  final Menus menus;
 
   Restaurant({
     required this.id,
@@ -15,50 +16,82 @@ class Restaurant {
     required this.description,
     required this.pictureId,
     required this.city,
+    required this.address,
     required this.rating,
     required this.menus,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
+    final String id = json['id'];
+    final String name = json['name'];
+    final String description = json['description'];
+    final String pictureId = json['pictureId'];
+    final String city = json['city'];
+    final String address = json['address'] ?? "";
+    final num rating = json['rating'];
+    final Menus menus = json['menus'] != null
+        ? Menus.fromJson(json['menus'])
+        : Menus(foods: [], drinks: []);
+
     return Restaurant(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        pictureId: json["pictureId"],
-        city: json["city"],
-        rating: json["rating"].toString(),
-        menus: Menus.fromJson(json["menus"]));
+      id: id,
+      name: name,
+      description: description,
+      pictureId: pictureId,
+      city: city,
+      address: address,
+      rating: rating,
+      menus: menus,
+    );
   }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "pictureId": pictureId,
+        "city": city,
+        "address": address,
+        "rating": rating,
+      };
+
+  String get smallPictureUrl => '$baseUrl/images/small/$pictureId';
+
+  String get mediumPictureUrl => '$baseUrl/images/medium/$pictureId';
+
+  String get largePictureUrl => '$baseUrl/images/large/$pictureId';
 }
 
 class Menus {
-  late List<Foods> foods;
-  late List<Foods> drinks;
+  late List<Food> foods;
+  late List<Drink> drinks;
 
   Menus({required this.foods, required this.drinks});
 
   factory Menus.fromJson(Map<String, dynamic> json) {
-    return Menus(
-        foods: List<Foods>.from(json["foods"].map((x) => Foods.fromJson(x))),
-        drinks: List<Foods>.from(json["drinks"].map((x) => Foods.fromJson(x))));
+    final List<Food> foods = (json['foods'] as List)
+        .map((foodJson) => Food.fromJson(foodJson))
+        .toList();
+
+    final List<Drink> drinks = (json['drinks'] as List)
+        .map((drinkJson) => Drink.fromJson(drinkJson))
+        .toList();
+
+    return Menus(foods: foods, drinks: drinks);
   }
 }
 
-class Foods {
-  late String name;
+class Food {
+  final String name;
 
-  Foods({required this.name});
-
-  factory Foods.fromJson(Map<String, dynamic> json) {
-    return Foods(name: json["name"]);
-  }
+  Food({required this.name});
+  factory Food.fromJson(Map<String, dynamic> json) => Food(name: json['name']);
 }
 
-List<Restaurant> parseRestaurant(String? json) {
-  if (json == null) {
-    return [];
-  }
+class Drink {
+  final String name;
+  Drink({required this.name});
 
-  final List parsed = jsonDecode(json)["restaurants"];
-  return parsed.map((e) => Restaurant.fromJson(e)).toList();
+  factory Drink.fromJson(Map<String, dynamic> json) =>
+      Drink(name: json['name']);
 }
