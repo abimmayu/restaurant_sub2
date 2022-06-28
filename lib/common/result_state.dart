@@ -5,6 +5,9 @@ class ResultState<T> {
   final String? message;
   final T? data;
 
-  ResultState(
-      {required this.status, required this.message, required this.data});
+  ResultState({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
 }

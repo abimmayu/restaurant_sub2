@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final TextTheme myTextTheme = TextTheme(
+final TextTheme textTheme = TextTheme(
   headline1: GoogleFonts.roboto(
       fontSize: 92, fontWeight: FontWeight.w300, letterSpacing: -1.5),
   headline2: GoogleFonts.roboto(

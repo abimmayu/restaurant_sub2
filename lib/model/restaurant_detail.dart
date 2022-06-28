@@ -3,24 +3,21 @@ import 'package:restaurant_app/model/restaurant.dart';
 class RestaurantDetail {
   bool error;
   String message;
-  Restaurant restaurants;
+  Restaurant restaurant;
 
-  RestaurantDetail({
-    required this.error,
-    required this.message,
-    required this.restaurants,
-  });
+  RestaurantDetail(
+      {required this.error, required this.message, required this.restaurant});
 
   factory RestaurantDetail.fromJson(Map<String, dynamic> json) =>
       RestaurantDetail(
         error: json['error'],
         message: json['message'],
-        restaurants: Restaurant.fromJson(json['restaurants)']),
+        restaurant: Restaurant.fromJson(json['restaurant']),
       );
 
   Map<String, dynamic> toJson() => {
         'error': error,
         'message': message,
-        'restaurants': restaurants,
+        'restaurant': restaurant,
       };
 }

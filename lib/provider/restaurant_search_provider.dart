@@ -26,7 +26,10 @@ class SearchRestaurantProvider extends ChangeNotifier {
       notifyListeners();
       final SearchRestaurant restaurantSearch = await api.getSearch(keyword);
       _state = ResultState(
-          status: Status.hasData, message: null, data: restaurantSearch);
+        status: Status.hasData,
+        message: null,
+        data: restaurantSearch,
+      );
       notifyListeners();
       return _state;
     } on TimeoutException {

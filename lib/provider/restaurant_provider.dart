@@ -21,7 +21,11 @@ class RestaurantProvider extends ChangeNotifier {
       _state = ResultState(status: Status.loading, message: null, data: null);
       notifyListeners();
       final RestaurantList restaurantList = await api.getData();
-      _state = ResultState(status: Status.hasData, message: null, data: null);
+      _state = ResultState(
+        status: Status.hasData,
+        message: null,
+        data: restaurantList,
+      );
       notifyListeners();
       return _state;
     } on TimeoutException {

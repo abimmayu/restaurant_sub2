@@ -8,7 +8,7 @@ class Restaurant {
   final String city;
   final String address;
   final num rating;
-  final Menus menus;
+  final Menu menus;
 
   Restaurant({
     required this.id,
@@ -29,9 +29,9 @@ class Restaurant {
     final String city = json['city'];
     final String address = json['address'] ?? "";
     final num rating = json['rating'];
-    final Menus menus = json['menus'] != null
-        ? Menus.fromJson(json['menus'])
-        : Menus(foods: [], drinks: []);
+    final Menu menus = json['menus'] != null
+        ? Menu.fromJson(json['menus'])
+        : Menu(foods: [], drinks: []);
 
     return Restaurant(
       id: id,
@@ -62,13 +62,13 @@ class Restaurant {
   String get largePictureUrl => '$baseUrl/images/large/$pictureId';
 }
 
-class Menus {
+class Menu {
   late List<Food> foods;
   late List<Drink> drinks;
 
-  Menus({required this.foods, required this.drinks});
+  Menu({required this.foods, required this.drinks});
 
-  factory Menus.fromJson(Map<String, dynamic> json) {
+  factory Menu.fromJson(Map<String, dynamic> json) {
     final List<Food> foods = (json['foods'] as List)
         .map((foodJson) => Food.fromJson(foodJson))
         .toList();
@@ -77,7 +77,7 @@ class Menus {
         .map((drinkJson) => Drink.fromJson(drinkJson))
         .toList();
 
-    return Menus(foods: foods, drinks: drinks);
+    return Menu(foods: foods, drinks: drinks);
   }
 }
 
@@ -85,11 +85,13 @@ class Food {
   final String name;
 
   Food({required this.name});
+
   factory Food.fromJson(Map<String, dynamic> json) => Food(name: json['name']);
 }
 
 class Drink {
   final String name;
+
   Drink({required this.name});
 
   factory Drink.fromJson(Map<String, dynamic> json) =>

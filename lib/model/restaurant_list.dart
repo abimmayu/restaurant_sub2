@@ -22,6 +22,10 @@ class RestaurantList {
         .toList();
 
     return RestaurantList(
-        error: error, message: message, count: count, restaurants: restaurants);
+      error: error,
+      message: message,
+      count: count,
+      restaurants: restaurants,
+    );
   }
 }

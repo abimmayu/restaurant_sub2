@@ -41,7 +41,7 @@ class Api {
   Future<RestaurantDetail> getDetail(String id) async {
     final response = await http
         .get(Uri.parse(_baseUrl + 'details/$id'))
-        .timeout((const Duration(seconds: 10)));
+        .timeout((const Duration(seconds: 5)));
     try {
       if (response.statusCode == 200) {
         return RestaurantDetail.fromJson(json.decode(response.body));
