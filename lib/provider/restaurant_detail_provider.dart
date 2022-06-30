@@ -36,7 +36,7 @@ class RestaurantDetailProvider extends ChangeNotifier {
     } catch (e) {
       _resultState = ResultState.error;
       notifyListeners();
-      return _message = 'Error ga ada sinyal keknya';
+      return _message = 'Tidak ada sinyal!';
     }
   }
 }

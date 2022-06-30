@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
                 itemCount: value.restaurant.restaurants.length,
                 itemBuilder: (BuildContext context, index) {
                   var restaurants = value.restaurant.restaurants[index];
-                  return Cards(restaurants: restaurants);
+                  return Cards(restaurant: restaurants);
                 },
               ),
             );

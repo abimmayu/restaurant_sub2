@@ -5,7 +5,7 @@ class RestaurantDetailResult {
 
   factory RestaurantDetailResult.fromJson(Map<String, dynamic> json) =>
       RestaurantDetailResult(
-        restaurants: RestaurantDetail.fromJson(json["restaurants"]),
+        restaurants: RestaurantDetail.fromJson(json["restaurant"]),
       );
 }
 
@@ -45,8 +45,6 @@ class RestaurantDetail {
             json["categories"].map((x) => Category.fromJson(x))),
         menus: json["menus"],
       );
-
-  get restaurants => null;
 }
 
 class Category {
