@@ -1,52 +1,42 @@
-import 'dart:io';
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/api.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:restaurant_app/data/api/api.dart';
 import 'package:restaurant_app/common/result_state.dart';
-import 'package:restaurant_app/model/restaurant_detail.dart';
+import 'package:restaurant_app/data/model/restaurant_detail_response.dart';
 
 class RestaurantDetailProvider extends ChangeNotifier {
   final Api api;
+  final String restaurants;
 
-  RestaurantDetailProvider({
-    required this.api,
-  });
+  RestaurantDetailProvider({required this.api, required this.restaurants}) {
+    _fetchDetailRestaurants();
+  }
 
-  ResultState<RestaurantDetail> _state = ResultState(
-    status: Status.loading,
-    message: null,
-    data: null,
-  );
+  late RestaurantDetailResult _restaurantDetailResult;
+  late ResultState _resultState;
+  String _message = '';
 
-  ResultState<RestaurantDetail> get state => _state;
+  RestaurantDetailResult get restaurantListResult => _restaurantDetailResult;
+  ResultState get resultState => _resultState;
+  String get message => _message;
 
-  Future<ResultState> getDetail(String id) async {
+  Future<dynamic> _fetchDetailRestaurants() async {
     try {
-      _state = ResultState(status: Status.loading, message: null, data: null);
+      _resultState = ResultState.loading;
       notifyListeners();
-      final RestaurantDetail restaurantDetail = await api.getDetail(id);
-      _state = ResultState(
-        status: Status.hasData,
-        message: null,
-        data: restaurantDetail,
-      );
+      final response = await api.getDetails(restaurants);
+      if (response.restaurants == ResultState.noData) {
+        _resultState = ResultState.noData;
+        notifyListeners();
+        return _message = 'Empty Data';
+      } else {
+        _resultState = ResultState.hasData;
+        notifyListeners();
+        return _restaurantDetailResult = response;
+      }
+    } catch (e) {
+      _resultState = ResultState.error;
       notifyListeners();
-      return _state;
-    } on TimeoutException {
-      _state = ResultState(
-          status: Status.error, message: 'timeoutExceptionMessage', data: null);
-      notifyListeners();
-      return _state;
-    } on SocketException {
-      _state = ResultState(
-          status: Status.error, message: 'socketExceptionMessage', data: null);
-      notifyListeners();
-      return _state;
-    } on Error catch (error) {
-      _state = ResultState(
-          status: Status.error, message: error.toString(), data: null);
-      notifyListeners();
-      return _state;
+      return _message = 'Error ga ada sinyal keknya';
     }
   }
 }

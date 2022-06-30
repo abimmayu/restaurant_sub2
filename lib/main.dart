@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/common/navigation_app.dart';
 import 'package:restaurant_app/common/styles_app.dart';
-import 'package:restaurant_app/data/api.dart';
-import 'package:restaurant_app/provider/restaurant_detail_provider.dart';
+import 'package:restaurant_app/data/api/api.dart';
+import 'package:restaurant_app/data/model/restaurant_list_response.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/ui/detail_screen.dart';
-import 'package:restaurant_app/ui/home_screen.dart';
+import 'package:restaurant_app/provider/restaurant_search_provider.dart';
+import 'package:restaurant_app/ui/presentation/first_screen.dart';
+import 'package:restaurant_app/ui/presentation/search_screen.dart';
+import 'package:restaurant_app/ui/presentation/second_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,13 +26,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    var routeName = SecondScreen.routeName;
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<RestaurantProvider>(
-          create: (_) => RestaurantProvider(api: _api),
+        ChangeNotifierProvider<RestaurantListProvider>(
+          create: (_) => RestaurantListProvider(api: _api),
         ),
-        ChangeNotifierProvider<RestaurantDetailProvider>(
-          create: (_) => RestaurantDetailProvider(api: _api),
+        ChangeNotifierProvider<SearchRestaurantProvider>(
+          create: (_) => SearchRestaurantProvider(api: _api),
         ),
       ],
       child: MaterialApp(
@@ -44,15 +46,15 @@ class _MyAppState extends State<MyApp> {
           textTheme: textTheme,
           appBarTheme: AppBarTheme(titleTextStyle: textTheme.headline6),
         ),
-        navigatorKey: navigator,
-        home: const HomeScreen(),
+        home: const FirstScreen(),
         // initialRoute: SplashScreen.routeName,
         routes: {
-          HomeScreen.routeName: (context) => const HomeScreen(),
-          DetailScreen.routeName: (context) => DetailScreen(
-                restaurants:
-                    ModalRoute.of(context)?.settings.arguments as String,
+          FirstScreen.routeName: (context) => const FirstScreen(),
+          routeName: (context) => SecondScreen(
+                restaurant:
+                    ModalRoute.of(context)?.settings.arguments as Restaurant,
               ),
+          SearchScreen.routeName: (context) => const SearchScreen(),
         },
       ),
     );

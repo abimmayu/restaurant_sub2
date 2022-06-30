@@ -1,51 +1,41 @@
-import 'dart:io';
-import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:restaurant_app/data/api/api.dart';
 import 'package:restaurant_app/common/result_state.dart';
-import 'package:restaurant_app/data/api.dart';
-import 'package:restaurant_app/model/restaurant_list.dart';
+import 'package:restaurant_app/data/model/restaurant_list_response.dart';
 
-class RestaurantProvider extends ChangeNotifier {
+class RestaurantListProvider extends ChangeNotifier {
   final Api api;
-  RestaurantProvider({required this.api}) {
-    _fetchAllRestauran();
+
+  RestaurantListProvider({required this.api}) {
+    _fetchAllRestaurants();
   }
 
-  ResultState<RestaurantList> _state =
-      ResultState(status: Status.loading, message: null, data: null);
+  late RestaurantResult _restaurants;
+  late ResultState _resultState;
+  String _message = '';
 
-  ResultState<RestaurantList> get state => _state;
+  RestaurantResult get restaurant => _restaurants;
+  ResultState get resultState => _resultState;
+  String get message => _message;
 
-  Future<dynamic> _fetchAllRestauran() async {
+  Future<dynamic> _fetchAllRestaurants() async {
     try {
-      _state = ResultState(status: Status.loading, message: null, data: null);
+      _resultState = ResultState.loading;
       notifyListeners();
-      final RestaurantList restaurantList = await api.getData();
-      _state = ResultState(
-        status: Status.hasData,
-        message: null,
-        data: restaurantList,
-      );
+      final response = await api.getData();
+      if (response.restaurants.isEmpty) {
+        _resultState = ResultState.noData;
+        notifyListeners();
+        return _message = 'Ga Ada Data';
+      } else {
+        _resultState = ResultState.hasData;
+        notifyListeners();
+        return _restaurants = response;
+      }
+    } catch (e) {
+      _resultState = ResultState.error;
       notifyListeners();
-      return _state;
-    } on TimeoutException {
-      _state = ResultState(
-          status: Status.error, message: 'Periksa Jaringan Anda!', data: null);
-      notifyListeners();
-      return _state;
-    } on SocketException {
-      _state = ResultState(
-          status: Status.error,
-          message:
-              'Jaringan Internet tidak terdeteksi, tolong perikas kembali jaringan anda!',
-          data: null);
-      notifyListeners();
-      return _state;
-    } on Error catch (error) {
-      _state = ResultState(
-          status: Status.error, message: error.toString(), data: null);
-      notifyListeners();
-      return _state;
+      return _message = 'Gagal Memuat Data';
     }
   }
 }
