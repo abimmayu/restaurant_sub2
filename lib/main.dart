@@ -10,30 +10,21 @@ import 'package:restaurant_app/ui/presentation/search_screen.dart';
 import 'package:restaurant_app/ui/presentation/second_screen.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final Api _api = Api();
-
-  @override
   Widget build(BuildContext context) {
-    var routeName = SecondScreen.routeName;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<RestaurantListProvider>(
-          create: (_) => RestaurantListProvider(api: _api),
+          create: (_) => RestaurantListProvider(api: Api()),
         ),
         ChangeNotifierProvider<SearchRestaurantProvider>(
-          create: (_) => SearchRestaurantProvider(api: _api),
+          create: (_) => SearchRestaurantProvider(api: Api()),
         ),
       ],
       child: MaterialApp(
@@ -50,11 +41,11 @@ class _MyAppState extends State<MyApp> {
         // initialRoute: SplashScreen.routeName,
         routes: {
           FirstScreen.routeName: (context) => const FirstScreen(),
-          routeName: (context) => SecondScreen(
+          SecondScreen.routeName: (context) => SecondScreen(
                 restaurant:
                     ModalRoute.of(context)?.settings.arguments as Restaurant,
               ),
-          SearchScreen.routeName: (context) => const SearchScreen(),
+          SearchScreen.routeName: (context) => SearchScreen(),
         },
       ),
     );

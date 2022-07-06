@@ -91,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 hintStyle: const TextStyle(
                   fontSize: 15.0,
-                  color: Colors.black,
+                  color: Colors.grey,
                 ),
               ),
               maxLines: 1,

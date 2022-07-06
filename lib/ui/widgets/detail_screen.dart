@@ -7,7 +7,7 @@ class DetailScreen extends StatelessWidget {
       'https://restaurant-api.dicoding.dev/images/large/';
 
   final RestaurantDetail restaurants;
-  const DetailScreen({Key? key, required this.restaurants}) : super(key: key);
+  DetailScreen({required this.restaurants});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,18 @@ class DetailScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height / 2.6,
             child: Stack(
               children: [
-                SizedBox(
+                Container(
                   height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: colorGrey.withOpacity(0.5),
+                          spreadRadius: 7,
+                          blurRadius: 10,
+                          offset: const Offset(0, 4))
+                    ],
+                  ),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(20),
@@ -29,32 +38,16 @@ class DetailScreen extends StatelessWidget {
                     ),
                     child: Hero(
                       tag: restaurants.pictureId,
-                      child: Image.network(
-                        _urlPicture + restaurants.pictureId,
-                        fit: BoxFit.cover,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              _urlPicture + restaurants.pictureId,
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                SafeArea(
-                  child: Container(
-                    margin: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                                color: colorGrey.withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(Icons.arrow_back))),
-                        const FavoriteButton()
-                      ],
                     ),
                   ),
                 ),
@@ -99,10 +92,7 @@ class DetailScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: colorPrimary.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(8)),
-                              child: const Icon(
-                                Icons.map_sharp,
-                                color: colorPrimary,
-                              )),
+                              child: FavoriteButton()),
                         ],
                       ),
                     ),
@@ -133,11 +123,11 @@ class DetailScreen extends StatelessWidget {
                             margin: const EdgeInsets.only(left: 8),
                             height: 40,
                             decoration: BoxDecoration(
-                                color: colorPrimary.withOpacity(0.2),
+                                color: colorGrey.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8)),
                             child: const Icon(
                               Icons.star,
-                              color: colorPrimary,
+                              color: iconRatings,
                             ),
                           ),
                         ),
@@ -185,11 +175,11 @@ class DetailScreen extends StatelessWidget {
                             margin: const EdgeInsets.only(left: 8),
                             height: 40,
                             decoration: BoxDecoration(
-                                color: colorPrimary.withOpacity(0.2),
+                                color: colorGrey.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8)),
                             child: const Icon(
                               Icons.timer,
-                              color: colorPrimary,
+                              color: Colors.black87,
                             ),
                           ),
                         ),
@@ -237,18 +227,18 @@ class DetailScreen extends StatelessWidget {
                             margin: const EdgeInsets.only(left: 8),
                             height: 40,
                             decoration: BoxDecoration(
-                                color: colorPrimary.withOpacity(0.2),
+                                color: colorGrey.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8)),
                             child: const Icon(
                               Icons.location_pin,
-                              color: colorPrimary,
+                              color: Colors.redAccent,
                             ),
                           ),
                         ),
                         Flexible(
                           flex: 2,
                           child: Container(
-                            margin: const EdgeInsets.fromLTRB(10, 15, 20, 0),
+                            margin: const EdgeInsets.fromLTRB(5, 15, 20, 0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -272,10 +262,23 @@ class DetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      color: colorGrey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 4))
+                ]),
+            padding: const EdgeInsets.all(10.0),
             child: Card(
-              margin: const EdgeInsets.all(8),
+              margin: const EdgeInsets.all(11),
               child: Text(
                 restaurants.description,
                 textAlign: TextAlign.justify,
@@ -288,7 +291,7 @@ class DetailScreen extends StatelessWidget {
               children: const [
                 Icon(
                   Icons.food_bank,
-                  color: colorPrimary,
+                  color: buttonFavorite,
                 ),
                 SizedBox(width: 4),
                 Text("Foods"),
@@ -302,7 +305,7 @@ class DetailScreen extends StatelessWidget {
               children: const [
                 Icon(
                   Icons.local_drink,
-                  color: colorPrimary,
+                  color: Colors.lightBlue,
                 ),
                 SizedBox(width: 4),
                 Text("Drinks"),

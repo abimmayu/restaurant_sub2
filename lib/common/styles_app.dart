@@ -31,6 +31,8 @@ final TextTheme textTheme = TextTheme(
 const colorPrimary = Color(0xff944E6C);
 const colorGrey = Color(0xffBDBDBD);
 const colorWhiteGrey = Color(0xffF6F6F6);
+const buttonFavorite = Colors.red;
+const iconRatings = Colors.yellow;
 const bgColorWhite = Color(0xffFAFAFA);
 const textStyleTitle = TextStyle(
   color: Colors.white,

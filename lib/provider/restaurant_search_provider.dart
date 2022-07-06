@@ -40,7 +40,7 @@ class SearchRestaurantProvider extends ChangeNotifier {
     } catch (error) {
       _resultState = ResultState.error;
       notifyListeners();
-      return _message = 'Silahkan Cek Internetmu!';
+      return _message = "Silahkan Cek Internet Kamu :)";
     }
   }
 }

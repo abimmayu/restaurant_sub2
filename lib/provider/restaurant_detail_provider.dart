@@ -15,7 +15,7 @@ class RestaurantDetailProvider extends ChangeNotifier {
   late ResultState _resultState;
   String _message = '';
 
-  RestaurantDetailResult get restaurantListResult => _restaurantDetailResult;
+  RestaurantDetailResult get restaurantDetailResult => _restaurantDetailResult;
   ResultState get resultState => _resultState;
   String get message => _message;
 
@@ -36,7 +36,7 @@ class RestaurantDetailProvider extends ChangeNotifier {
     } catch (e) {
       _resultState = ResultState.error;
       notifyListeners();
-      return _message = 'Tidak ada sinyal!';
+      return _message = "Tidak Ada Internet!";
     }
   }
 }

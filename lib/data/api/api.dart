@@ -14,7 +14,7 @@ class Api {
     final response = await http.get(Uri.parse(_baseUrl + _list));
     if (response.statusCode == 200) {
       return RestaurantResult.fromJson(
-        json.decode(
+        jsonDecode(
           response.body,
         ),
       );
@@ -26,7 +26,11 @@ class Api {
   Future<RestaurantSearchResult> getSearch(String query) async {
     final response = await http.get(Uri.parse(_baseUrl + 'search?q=' + query));
     if (response.statusCode == 200) {
-      return RestaurantSearchResult.fromJson(json.decode(response.body));
+      return RestaurantSearchResult.fromJson(
+        jsonDecode(
+          response.body,
+        ),
+      );
     } else {
       throw Exception(_throw);
     }
@@ -35,7 +39,11 @@ class Api {
   Future<RestaurantDetailResult> getDetails(String id) async {
     final response = await http.get(Uri.parse(_baseUrl + 'detail/' + id));
     if (response.statusCode == 200) {
-      return RestaurantDetailResult.fromJson(json.decode(response.body));
+      return RestaurantDetailResult.fromJson(
+        json.decode(
+          response.body,
+        ),
+      );
     } else {
       throw Exception(_throw);
     }

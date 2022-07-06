@@ -7,12 +7,21 @@ class CardResult extends StatelessWidget {
   const CardResult({Key? key, required this.restaurants}) : super(key: key);
 
   static const String _baseUrlImage =
-      'https://restaurant-api.dicoding.dev/images/small/';
+      'https://restaurant-api.dicoding.dev/images/medium/';
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(_baseUrlImage + restaurants.pictureId),
+      leading: Container(
+          height: 60,
+          width: 80,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                  _baseUrlImage + restaurants.pictureId,
+                ),
+                fit: BoxFit.cover),
+          )),
       title: Text(restaurants.name),
       subtitle: Text(restaurants.city),
       trailing: Row(
@@ -21,7 +30,7 @@ class CardResult extends StatelessWidget {
           Text(restaurants.rating),
           const Icon(
             Icons.star,
-            color: colorPrimary,
+            color: iconRatings,
           )
         ],
       ),

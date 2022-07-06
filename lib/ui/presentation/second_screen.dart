@@ -16,8 +16,10 @@ class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantDetailProvider>(
-      create: (_) =>
-          RestaurantDetailProvider(api: Api(), restaurants: restaurant.id),
+      create: (_) => RestaurantDetailProvider(
+        api: Api(),
+        restaurants: restaurant.id,
+      ),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Detail Restaurant"),
@@ -31,7 +33,7 @@ class SecondScreen extends StatelessWidget {
             } else if (value.resultState == ResultState.hasData) {
               return Scaffold(
                 body: DetailScreen(
-                  restaurants: value.restaurantListResult.restaurants,
+                  restaurants: value.restaurantDetailResult.restaurants,
                 ),
               );
             } else if (value.resultState == ResultState.noData) {
