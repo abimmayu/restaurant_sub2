@@ -7,7 +7,7 @@ class DetailScreen extends StatelessWidget {
       'https://restaurant-api.dicoding.dev/images/large/';
 
   final RestaurantDetail restaurants;
-  DetailScreen({required this.restaurants});
+  const DetailScreen({Key? key, required this.restaurants}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class DetailScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: colorPrimary.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(8)),
-                              child: FavoriteButton()),
+                              child: const FavoriteButton()),
                         ],
                       ),
                     ),
@@ -262,7 +262,7 @@ class DetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Container(
